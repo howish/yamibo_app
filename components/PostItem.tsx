@@ -19,10 +19,17 @@ interface PostItemProps {
     post: Post;
 }
 
+import { useTheme } from "../context/ThemeContext";
+
 export function PostItem({ post }: PostItemProps) {
     const { width } = useWindowDimensions();
     const { colorScheme } = useColorScheme();
+    const { fontScale } = useTheme();
     const isDark = colorScheme === 'dark';
+
+    // Base font size logic
+    const baseFontSize = 16 * fontScale;
+    const lineHeight = baseFontSize * 1.5;
 
     const [visible, setVisible] = useState(false);
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
@@ -125,7 +132,7 @@ export function PostItem({ post }: PostItemProps) {
     return (
         <View className="p-4 bg-white dark:bg-gray-900 border-b border-gray-100 dark:border-gray-800 mb-2">
             <View className="flex-row justify-between mb-2">
-                <Text className="font-bold text-gray-800 dark:text-gray-200">{post.author}</Text>
+                <Text className="font-bold text-gray-800 dark:text-gray-200" style={{ fontSize: baseFontSize }}>{post.author}</Text>
                 <Text className="text-xs text-gray-400 dark:text-gray-500">{post.dateline}</Text>
             </View>
 
@@ -134,9 +141,9 @@ export function PostItem({ post }: PostItemProps) {
                 contentWidth={width - 32}
                 source={{ html: post.message }}
                 baseStyle={{
-                    fontSize: 16,
+                    fontSize: baseFontSize,
                     color: isDark ? "#e5e7eb" : "#1f2937",
-                    lineHeight: 24
+                    lineHeight: lineHeight
                 }}
                 tagsStyles={{
                     img: { maxWidth: "100%", height: "auto" },
