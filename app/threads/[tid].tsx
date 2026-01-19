@@ -66,7 +66,7 @@ export default function ThreadView() {
     };
 
     return (
-        <View className="flex-1 bg-gray-50">
+        <View className="flex-1 bg-gray-50 dark:bg-black">
             <Stack.Screen options={{ title: threadInfo?.subject || "Thread" }} />
             {loading && page === 1 ? (
                 <View className="flex-1 items-center justify-center">

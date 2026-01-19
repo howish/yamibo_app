@@ -17,19 +17,19 @@ export function ThreadItem({ thread }: ThreadItemProps) {
 
     return (
         <Link href={`/threads/${thread.tid}`} asChild>
-            <TouchableOpacity className="p-4 bg-white border-b border-gray-100 active:bg-gray-50">
-                <Text className="text-base font-medium text-gray-900 leading-snug mb-1">
+            <TouchableOpacity className="p-4 bg-white dark:bg-gray-900 border-b border-gray-100 dark:border-gray-800 active:bg-gray-50 dark:active:bg-gray-800">
+                <Text className="text-base font-medium text-gray-900 dark:text-gray-100 leading-snug mb-1">
                     {thread.subject}
                 </Text>
 
                 <View className="flex-row items-center justify-between mt-2">
                     <View className="flex-row items-center">
-                        <Text className="text-xs text-gray-500 mr-2">{thread.author}</Text>
-                        <Text className="text-xs text-gray-400">{thread.dateline}</Text>
+                        <Text className="text-xs text-gray-500 dark:text-gray-400 mr-2">{thread.author}</Text>
+                        <Text className="text-xs text-gray-400 dark:text-gray-500">{thread.dateline}</Text>
                     </View>
                     <View className="flex-row items-center">
-                        <Text className="text-xs text-gray-500 mr-2">Repl: {thread.replies}</Text>
-                        <Text className="text-xs text-gray-400">View: {thread.views}</Text>
+                        <Text className="text-xs text-gray-500 dark:text-gray-400 mr-2">Repl: {thread.replies}</Text>
+                        <Text className="text-xs text-gray-400 dark:text-gray-500">View: {thread.views}</Text>
                     </View>
                 </View>
             </TouchableOpacity>

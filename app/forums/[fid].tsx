@@ -65,7 +65,7 @@ export default function ForumDisplay() {
     };
 
     return (
-        <View className="flex-1 bg-gray-50">
+        <View className="flex-1 bg-gray-50 dark:bg-black">
             <Stack.Screen options={{ title: forumName || "Forum" }} />
             {loading && page === 1 ? (
                 <View className="flex-1 items-center justify-center">
