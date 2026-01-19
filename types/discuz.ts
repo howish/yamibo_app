@@ -77,3 +77,13 @@ export interface Attachment {
     url: string;
     attachment: string; // Relative path
 }
+
+export interface LoginVariables {
+    auth: string | null;
+    saltkey: string;
+    member_uid: string;
+    member_username: string;
+    member_avatar: string;
+    groupid: string;
+    formhash: string;
+}

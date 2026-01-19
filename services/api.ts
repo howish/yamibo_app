@@ -11,8 +11,9 @@ import { Platform } from 'react-native';
 const BASE_URL = 'https://bbs.yamibo.com/api/mobile/index.php';
 
 // Use a CORS proxy for web functionality
-const PROXY_URL = 'https://api.allorigins.win/raw?url=';
-const baseURL = Platform.OS === 'web' ? `${PROXY_URL}${encodeURIComponent(BASE_URL)}` : BASE_URL;
+// Use a local proxy server (CORS fixed) on port 3002
+// The proxy forwards everything to https://bbs.yamibo.com and fixes headers
+const baseURL = Platform.OS === 'web' ? 'http://localhost:3002/api/mobile/index.php' : BASE_URL;
 
 const api = axios.create({
     baseURL: baseURL,
@@ -20,6 +21,47 @@ const api = axios.create({
         version: 4,
     },
 });
+
+import { Storage } from '../utils/storage';
+
+const AUTH_KEY = 'yamibo_auth_token';
+
+// Request interceptor to add auth token
+// Add a variable to hold the cookie in memory updates
+let globalCookie = '';
+
+export const setGlobalCookie = (cookie: string) => {
+    globalCookie = cookie;
+};
+
+export const clearGlobalCookie = () => {
+    globalCookie = '';
+};
+
+// Request interceptor to add auth token and cookie
+api.interceptors.request.use(
+    async (config) => {
+        // Add User-Agent to avoid 403 checks sometimes
+        config.headers['User-Agent'] = 'YamiboApp/1.0';
+
+        const token = await Storage.getItem(AUTH_KEY);
+        if (token) {
+            if (!config.params) config.params = {};
+            config.params.auth = token;
+        }
+
+        // Add Cookie if available (critical for Hybrid Auth)
+        const storedCookie = await Storage.getItem('yamibo_cookie');
+        if (storedCookie || globalCookie) {
+            config.headers['Cookie'] = globalCookie || storedCookie;
+        }
+
+        return config;
+    },
+    (error) => {
+        return Promise.reject(error);
+    }
+);
 
 // Response interceptor to handle Discuz API structure
 api.interceptors.response.use(
@@ -67,9 +109,41 @@ export const YamiboApi = {
         return response.data.Variables;
     },
 
+    // Get current user info from session
+    getMe: async () => {
+        // 'module=login' with no arguments often returns the current user state variables
+        const response = await api.get<DiscuzResponse<import('../types/discuz').LoginVariables>>('', {
+            params: {
+                module: 'login',
+                version: 4
+            }
+        });
+        return response.data;
+    },
+
     // Placeholder for login
-    login: async () => {
-        // TODO: Implement login
-        throw new Error("Not implemented");
+    login: async (username: string, password: string) => {
+        const formData = new FormData();
+        formData.append('username', username);
+        formData.append('password', password);
+        // Standard Discuz login usually requires 'questionid', 'answer', 'cookietime' etc.
+        // For mobile API, basic fields might suffice.
+        // Usually, the endpoint is module=login&loginsubmit=yes
+
+        const response = await api.post<DiscuzResponse<import('../types/discuz').LoginVariables>>('', formData, {
+            params: {
+                module: 'login',
+                loginsubmit: 'yes',
+                loginfield: 'username',
+            },
+            headers: {
+                'Content-Type': 'multipart/form-data',
+            }
+        });
+        return response.data.Variables;
+    },
+
+    clearCookies: () => {
+        clearGlobalCookie();
     }
 };
