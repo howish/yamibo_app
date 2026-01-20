@@ -1,34 +1,25 @@
 # Yamibo App Development Task List
 
+## Done
+- [x] **Project Exploration & Context**
 - [x] **Research & API Verification**
-    - [x] Verify `api/mobile/index.php` accessibility
-    - [x] Document key API endpoints (Login, Forum Index, Thread List, Post List)
-    - [x] Create API client service
+- [x] **Authentication (Hybrid Approach)** (WebView login for security checks)
+- [x] **Feature Parity: Core Experience** (Dark Mode, Image Gallery, Font Size)
+- [x] **Debugging & Stabilization** (Node 18 compatibility, Tailwind mismatch)
+- [x] **Debug Loop Implementation** (GitHub issue submission from app)
 
-- [x] **Authentication (Hybrid Approach)** <!-- id: 5 -->
-    - [x] Create `LoginWebView` screen to handle interactive login
-    - [x] Extract cookies/auth token from WebView
-    - [x] Update `AuthContext` to support cookie-based session
-    - [x] Implement Incognito Mode for reliable re-login
+## In Progress
+- [/] **Environment Troubleshooting**
+    - [/] Identify Node.js version issue (currently v12, need v20)
+    - [ ] Upgrade Node.js via `nvm`
+    - [ ] Run `npm install`
+    - [ ] Verify `npm start`
 
-- [x] **Feature Parity: Core Experience** <!-- id: 6 -->
-    - [x] Implement Dark Mode (Settings & Context)
-    - [x] Implement Image Gallery (Zoom/Download) in Threads
-    - [x] Implement Font Size Control
-
-- [ ] **Feature Parity: Advanced** <!-- id: 7 -->
+## Backlog
+- [ ] **Feature Parity: Advanced**
     - [ ] Implement Batch Reply (Multi-quote)
     - [ ] Implement Traditional/Simplified Chinese Toggle
     - [ ] Implement Search functionality
-
 - [ ] **Forum Browsing & Interaction**
-    - [x] Forum Index Screen
-    - [x] Thread List Screen
-    - [x] Post View Screen
     - [ ] Reply to thread
     - [ ] Create new thread
-
-- [x] **Debugging & Stabilization**
-    - [x] Fix Node.js 18 compatibility (polyfills)
-    - [x] Fix Tailwind/NativeWind version mismatch
-    - [x] Fix Babel/Reanimated plugin missing (Dark Mode crash)

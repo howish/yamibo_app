@@ -60,8 +60,24 @@ export default function SettingsScreen() {
                     ))}
                 </View>
 
-                <Text className="text-gray-500 dark:text-gray-400 mt-4 text-sm px-2">
+                <Text className="text-gray-500 dark:text-gray-400 mt-2 text-sm px-2 mb-8">
                     Adjusts the font size for forum posts and threads.
+                </Text>
+
+                <Text className="text-xl font-bold mb-4 text-gray-900 dark:text-white">Developer</Text>
+                <View className="bg-white dark:bg-gray-800 rounded-xl overflow-hidden">
+                    <TouchableOpacity
+                        className="p-4 flex-row justify-between items-center"
+                        onPress={() => router.push('/debug')}
+                    >
+                        <View className="flex-row items-center">
+                            <Text className="text-base text-gray-800 dark:text-gray-200">Debug Panel</Text>
+                        </View>
+                        <Text className="text-gray-400">{">"}</Text>
+                    </TouchableOpacity>
+                </View>
+                <Text className="text-gray-500 dark:text-gray-400 mt-2 text-sm px-2">
+                    Submit issues and feature requests directly to GitHub.
                 </Text>
             </View>
         </ScrollView>
